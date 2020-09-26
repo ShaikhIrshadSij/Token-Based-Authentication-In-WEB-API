@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<button class="btn btn-default" id="btnAddEmployee">Add Employee Data</button>
+<table class="table table-bordered" id="tblEmployeeDetails">
+    <thead>
+        <tr>
+            <th>Employee Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="modalSaveEmployeeData" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Employee Data
+                </h4>
+            </div>
+            <div class="modal-body custom-model-body row">
+                <div class="col-md-12">
+                    <label>Employee Name</label>
+                    <input type="hidden" id="hdnEmployeeId" value="0" />
+                    <input type="text" id="txtEmployeeName" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label>Phone Number</label>
+                    <input type="text" id="txtPhoneNumber" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label>Address</label>
+                    <input type="text" id="txtAddress" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer custom-model-body" style="min-height: unset;">
+                <button type="button" class="btn btn-default" onclick="AddEditEmpolyees();">Save</button>
+                <button type="button" class="btn btn-danger" id="" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+        $(document).on('click', '#btnAddEmployee', function () {
+            $('#hdnEmployeeId').val('0');
+            $('.form-control').val('');
+            $('#modalSaveEmployeeData').modal('show');
+        });
+
+        $(document).ready(function () {
+            GetEmployees();
+        });
+
+        $.ajaxSetup({
+            dataFilter: function (data, type) {
+                data = JSON.parse(data);
+                if (data.Message != undefined) {
+                    alert(data.Message);
+                    $('#logoutForm').submit();
+                }
+                else {
+                    return data;
+                }
+            }
+        });
+
+        function GetEmployees() {
+            $.get('/Home/GetEmployees', function (res) {
+                if (res.isSuccess) {
+                    var allEmployees = JSON.parse(res.allEmployees);
+                    var htmlString = "";
+                    for (var i = 0, _len = allEmployees.length; i < _len; i++) {
+                        htmlString += `<tr>
+                                                                                                                               <td>${allEmployees[i].EmployeeName}</td>
+                                                                                                                               <td>${allEmployees[i].Address}</td>
+                                                                                                                               <td>${allEmployees[i].PhoneNumber}</td>
+                                                                                                                               <td><button class="btn btn-success" onclick="GetEmployeesById('${allEmployees[i].EmployeeId}')">Edit</button><button class="btn btn-danger" onclick="DeleteEmployeesById('${allEmployees[i].EmployeeId}')">Delete</button></td>
+                                                                                                                           </tr>`;
+                    }
+                    $('#tblEmployeeDetails tbody').html(htmlString);
+                }
+                else {
+                    alert("Failed to get data");
+                }
+            });
+        }
+
+        function AddEditEmpolyees() {
+            var empObj = {
+                Address: $('#txtAddress').val(),
+                EmployeeName: $('#txtEmployeeName').val(),
+                PhoneNumber: $('#txtPhoneNumber').val(),
+                EmployeeId: $('#hdnEmployeeId').val()
+            };
+            $.ajax({
+                url: '/Home/AddEditEmpolyees',
+                type: 'POST',
+                data: {
+                    empObj: JSON.stringify(empObj)
+                },
+                success: function (res) {
+                    if (res.isSuccess) {
+                        GetEmployees();
+                        $('#modalSaveEmployeeData').modal('hide');
+                    }
+                    else {
+
+                    }
+                },
+                error: function (err) {
+                    alert("Error: Failed to add data");
+                }
+            });
+        }
+
+        function GetEmployeesById(empId) {
+            $.get('/Home/GetEmployeesById?empId=' + empId, function (res) {
+                if (res.isSuccess) {
+                    $('#txtAddress').val(res.data.Address);
+                    $('#txtEmployeeName').val(res.data.EmployeeName);
+                    $('#txtPhoneNumber').val(res.data.PhoneNumber);
+                    $('#hdnEmployeeId').val(res.data.EmployeeId);
+                    $('#modalSaveEmployeeData').modal('show');
+                }
+            });
+        }
+
+        function DeleteEmployeesById(empId) {
+            if (confirm("Are you sure?")) {
+                $.get('/Home/DeleteEmployeesById?empId=' + empId, function (res) {
+                    GetEmployees();
+                });
+            }
+        }
+
+    </script>
+
+}

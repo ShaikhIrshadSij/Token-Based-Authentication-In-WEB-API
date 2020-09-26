@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenBasedAuthentication", "TokenBasedAuthentication\TokenBasedAuthentication.csproj", "{2D51FCB7-A2C5-4711-80B3-47B452B2528B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenBasedAuthenticationWebAPI", "TokenBasedAuthenticationWebAPI\TokenBasedAuthenticationWebAPI.csproj", "{E44D0AF2-007E-4436-BEC5-538262E277F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D51FCB7-A2C5-4711-80B3-47B452B2528B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D51FCB7-A2C5-4711-80B3-47B452B2528B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D51FCB7-A2C5-4711-80B3-47B452B2528B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D51FCB7-A2C5-4711-80B3-47B452B2528B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E44D0AF2-007E-4436-BEC5-538262E277F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44D0AF2-007E-4436-BEC5-538262E277F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44D0AF2-007E-4436-BEC5-538262E277F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44D0AF2-007E-4436-BEC5-538262E277F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4ADAA57D-0220-461C-8EA1-8CDB8B2FABCB}
+	EndGlobalSection
+EndGlobal
